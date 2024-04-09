@@ -1,6 +1,9 @@
+import { Aggregate } from "../@shared/aggregate";
+import CustomerChangedAddressEvent from "../event/customer/customer-changed-address.event";
+import CustomerCreatedEvent from "../event/customer/customer-created.event";
 import Address from "./address";
 
-export default class Customer {
+export default class Customer extends Aggregate {
     private _id: string;
     private _name: string;
     private _address!: Address;
@@ -8,9 +11,11 @@ export default class Customer {
     private _rewardPoints: number = 0;
 
     constructor(id: string, name: string) {
+        super();
         this._id = id;
         this._name = name;
         this.validate();
+        this.addEvent(new CustomerCreatedEvent({ id, name }));
     }
 
     get id(): string {
@@ -46,7 +51,9 @@ export default class Customer {
     changeAddress(address: Address) {
         this._address = address;
         this.validate();
+        this.addEvent(new CustomerChangedAddressEvent({ id: this._id, name: this._name, address }));
     }
+
     activate() {
         if (this._address === undefined) {
             throw new Error("Address is mandatory to activate a customer");

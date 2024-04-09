@@ -1,3 +1,4 @@
+import EventDispatcher from "../event/shared/event-dispatcher";
 import Address from "./address";
 import Customer from "./customer";
 

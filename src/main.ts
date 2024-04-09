@@ -1,14 +1,25 @@
-import Address from './domain/entity/address';
-import Customer from './domain/entity/customer';
-import Order from './domain/entity/order';
-import OrderItem from './domain/entity/order_item';
+import Address from "./domain/entity/address";
+import Customer from "./domain/entity/customer";
+import { CustomerService } from "./domain/service/customer.service";
 
-let custumer = new Customer("1", "Guilherme");
-const address = new Address("Rua Teste", 1, "12345-123", "Ribeirão Preto");
-custumer.changeAddress(address);
-custumer.activate();
+async function createCustomer(): Promise<Customer> {
+    const customerService = new CustomerService();
+    return await customerService.create("Guilherme");
+}
 
-const item1 = new OrderItem("1", "Item 1", 12, "Id1", 1);
-const item2 = new OrderItem("2", "Item 2", 15, "Id2", 2);
+async function changeCustomerAddress(customer: Customer, address: Address): Promise<void> {
+    const customerService = new CustomerService();
+    return await customerService.changeAddress(customer, address);
+}
 
-const order = new Order("1", "1", [item1, item2]);
+createCustomer()
+    .then(customer => {
+        console.log(customer.name);
+        return customer;
+    })
+    .then(customer => 
+        changeCustomerAddress(
+            customer, 
+            new Address("Street 1", 1, "Zipcode 1", "City 1")
+        )
+    );
