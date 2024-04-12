@@ -1,6 +1,6 @@
-import Address from "./domain/entity/address";
-import Customer from "./domain/entity/customer";
-import { CustomerService } from "./domain/service/customer.service";
+import Address from "./domain/customer/value-object/address";
+import Customer from "./domain/customer/entity/customer";
+import { CustomerService } from "./domain/customer/service/customer.service";
 
 async function createCustomer(): Promise<Customer> {
     const customerService = new CustomerService();

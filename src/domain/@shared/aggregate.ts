@@ -1,4 +1,4 @@
-import EventInterface from "../event/shared/event.interface";
+import EventInterface from "./event/event.interface";
 
 export abstract class Aggregate {
     events: Set<EventInterface> = new Set();
