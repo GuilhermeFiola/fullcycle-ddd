@@ -7,6 +7,11 @@ import Address from "../../../../domain/customer/value-object/address";
 describe("Customer repository unit tests", () => {
     let sequilize: Sequelize;
 
+    beforeAll(async () => {
+        const mockDate = new Date('2025-02-17T00:00:00.000Z');
+        jest.useFakeTimers().setSystemTime(mockDate);
+    })
+
     beforeEach(async () => {
         sequilize = new Sequelize({
             dialect: "sqlite",
@@ -20,6 +25,10 @@ describe("Customer repository unit tests", () => {
 
     afterEach(async () => {
         await sequilize.close();
+    });
+
+    afterAll(() => {
+        jest.restoreAllMocks();
     });
 
     it("should create a customer", async () => {
